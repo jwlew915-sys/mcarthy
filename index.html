@@ -75,9 +75,10 @@
   <!-- Bottom fade into stats bar -->
   <div class="absolute bottom-0 inset-x-0 h-20 pointer-events-none" style="background:linear-gradient(to bottom,transparent,#4350A4);"></div>
 
-  <!-- Content: strictly left-aligned, never exceeds 42% of viewport width -->
+  <!-- Content: aligned to same container as rest of page -->
   <div class="absolute inset-0 flex items-center pointer-events-none" style="padding-top:0">
-    <div class="pointer-events-auto" style="padding-left:clamp(2rem,5vw,5rem);padding-right:2rem;width:48vw;min-width:320px;max-width:640px">
+    <div class="w-full max-w-screen-2xl mx-auto px-8 pointer-events-none">
+    <div class="pointer-events-auto" style="width:48vw;min-width:300px;max-width:600px">
       <span class="block text-brand-red font-headline uppercase tracking-[0.28em] font-bold text-xs mb-5">Democrat · North Hempstead</span>
       <h1 class="font-headline font-black uppercase tracking-tighter leading-[1.0] mb-5 text-white" style="font-size:clamp(2rem,2.6vw,3.2rem)">
         A Vision For <span class="text-brand-red">North Hempstead</span>
@@ -103,6 +104,7 @@
           <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Principles</div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 
