@@ -42,8 +42,8 @@
 <!-- NAV -->
 <nav class="fixed top-0 w-full z-50 bg-brand-dark/95 backdrop-blur-xl shadow-xl shadow-brand-dark/40">
   <div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
-    <a href="#" aria-label="Sean McCarthy for North Hempstead Supervisor">
-      <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-12" style="mix-blend-mode:screen;filter:brightness(1.5) saturate(.85)" />
+    <a href="#" aria-label="Sean McCarthy for North Hempstead Supervisor" style="display:inline-flex;align-items:center;background:#F5F4F0;border-radius:4px;padding:4px 10px">
+      <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-10" />
     </a>
     <div class="hidden md:flex gap-8 items-center">
       <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-all text-sm" href="#vision">Vision</a>
@@ -59,11 +59,11 @@
 </nav>
 
 <!-- HERO — full-bleed video, text hard-left -->
-<section class="relative overflow-hidden bg-brand-dark" style="min-height:100svh;padding-top:72px">
+<section class="relative overflow-hidden bg-brand-dark" style="min-height:75vh;max-height:82vh;padding-top:72px">
 
   <!-- Full-bleed video -->
   <video
-    class="absolute inset-0 w-full h-full object-cover object-center"
+    class="absolute inset-0 w-full h-full object-cover object-top"
     style="filter:saturate(0.75) brightness(0.8)"
     autoplay muted loop playsinline preload="auto" aria-hidden="true"
   >
@@ -77,9 +77,9 @@
 
   <!-- Content: strictly left-aligned, never exceeds 42% of viewport width -->
   <div class="absolute inset-0 flex items-center pointer-events-none" style="padding-top:0">
-    <div class="pointer-events-auto" style="padding-left:clamp(2rem,5vw,5rem);padding-right:2rem;width:42vw;min-width:320px;max-width:560px">
+    <div class="pointer-events-auto" style="padding-left:clamp(2rem,5vw,5rem);padding-right:2rem;width:48vw;min-width:320px;max-width:640px">
       <span class="block text-brand-red font-headline uppercase tracking-[0.28em] font-bold text-xs mb-5">Democrat · North Hempstead</span>
-      <h1 class="font-headline font-black uppercase tracking-tighter leading-[1.0] mb-5 text-white" style="font-size:clamp(2.2rem,3.8vw,4.2rem)">
+      <h1 class="font-headline font-black uppercase tracking-tighter leading-[1.0] mb-5 text-white" style="font-size:clamp(2rem,2.6vw,3.2rem)">
         A Vision For <span class="text-brand-red">North Hempstead</span>
       </h1>
       <p class="text-white/60 font-light leading-relaxed mb-8" style="font-size:0.95rem;max-width:38ch">
@@ -368,7 +368,9 @@
 <footer class="bg-brand-dark w-full">
   <div class="flex flex-col md:flex-row justify-between items-center px-12 py-16 gap-8 w-full max-w-screen-2xl mx-auto">
     <div class="flex flex-col gap-4">
-      <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-14" style="mix-blend-mode:screen;filter:brightness(1.5) saturate(.85)" />
+      <span style="display:inline-flex;align-items:center;background:#F5F4F0;border-radius:4px;padding:6px 12px">
+        <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-12" />
+      </span>
       <p class="text-sm text-white/38 max-w-xs leading-relaxed">
         Paid for by McCarthy for Supervisor. Not authorized by any candidate or candidate's committee. © 2026 McCarthy for Supervisor.
       </p>
