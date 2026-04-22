@@ -46,22 +46,35 @@
     max-height: 400px;
   }
 
-  /* Video: right-anchored on mobile so it fills the right edge */
-  .hero-video { object-position: right center; }
+  /* Video: center Sean's face on mobile, pull right on desktop */
+  .hero-video { object-position: 70% 20%; }
   @media (min-width: 768px) {
     .hero-video { object-position: 65% center; }
   }
 
-  /* Hero: solid navy left, fades to transparent by center so video shows right */
+  /* Hero overlay:
+     Mobile  → bottom-to-top so video shows at top, text readable at bottom
+     Desktop → left-to-right so text sits in dark left panel */
   .hero-overlay {
-    background: linear-gradient(to right,
+    background: linear-gradient(to top,
       #1A2547 0%,
-      #1A2547 28%,
-      rgba(26,37,71,0.88) 40%,
-      rgba(26,37,71,0.4) 56%,
-      rgba(26,37,71,0.05) 72%,
-      transparent 82%
+      #1A2547 40%,
+      rgba(26,37,71,0.75) 58%,
+      rgba(26,37,71,0.2) 76%,
+      transparent 92%
     );
+  }
+  @media (min-width: 768px) {
+    .hero-overlay {
+      background: linear-gradient(to right,
+        #1A2547 0%,
+        #1A2547 28%,
+        rgba(26,37,71,0.88) 40%,
+        rgba(26,37,71,0.4) 56%,
+        rgba(26,37,71,0.05) 72%,
+        transparent 82%
+      );
+    }
   }
 
   /* Vision cards: always show text on mobile, hover-only on desktop */
@@ -121,7 +134,7 @@
 </nav>
 
 <!-- HERO -->
-<section class="relative overflow-hidden bg-brand-dark" style="min-height:52vh;padding-top:56px" id="signup">
+<section class="relative overflow-hidden bg-brand-dark" style="min-height:88svh;padding-top:56px" id="signup">
   <video
     class="absolute inset-0 w-full h-full object-cover hero-video"
     style="filter:saturate(0.8) brightness(0.85)"
@@ -134,7 +147,7 @@
   <div class="absolute inset-0 hero-overlay pointer-events-none"></div>
 
   <!-- Content: left-aligned, stops before video zone -->
-  <div class="relative z-10 flex items-center" style="min-height:calc(52vh - 56px)">
+  <div class="relative z-10 flex items-end md:items-center" style="min-height:calc(88svh - 56px)">
     <div class="w-full max-w-screen-2xl mx-auto px-6 md:px-12 py-10 md:py-14">
       <div style="max-width:560px">
         <h1 class="font-headline font-black leading-[0.95] mb-6 text-white" style="font-size:clamp(2.6rem,5.5vw,5rem)">
