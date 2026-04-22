@@ -12,14 +12,14 @@
     theme: {
       extend: {
         colors: {
-          "brand-dark":  "#1A2547",   /* deepened navy — nav, footer */
-          "brand-navy":  "#2B3A6E",   /* primary navy */
-          "brand-blue":  "#4350A4",   /* accent blue */
-          "brand-red":   "#CC2529",   /* true red — brand guidelines */
-          "brand-cream": "#F5F4F0",   /* warm off-white background */
-          "brand-muted": "#5A6278",   /* body text on light surfaces */
-          "brand-rule":  "#DDDCE0",   /* dividers / borders */
-          "brand-input": "#ECEAE6",   /* form input backgrounds */
+          "brand-dark":  "#1A2547",
+          "brand-navy":  "#2B3A6E",
+          "brand-blue":  "#4350A4",
+          "brand-red":   "#CC2529",
+          "brand-cream": "#F5F4F0",
+          "brand-muted": "#5A6278",
+          "brand-rule":  "#DDDCE0",
+          "brand-input": "#ECEAE6",
         },
         fontFamily: {
           headline: ["Cabin", "sans-serif"],
@@ -35,33 +35,85 @@
   }
   body { font-family: 'Karla', sans-serif; }
   h1, h2, h3, h4, .headline { font-family: 'Cabin', sans-serif; }
+
+  /* Mobile nav drawer */
+  #mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  #mobile-menu.open {
+    max-height: 400px;
+  }
+
+  /* Hero gradient: full overlay on mobile, left-panel on desktop */
+  .hero-gradient {
+    background: rgba(26,37,71,0.82);
+  }
+  @media (min-width: 768px) {
+    .hero-gradient {
+      background: linear-gradient(to right, #1A2547 0%, #1A2547 38%, rgba(26,37,71,0.7) 55%, rgba(26,37,71,0.1) 75%, transparent 90%);
+    }
+  }
+
+  /* Vision cards: always show text on mobile, hover-only on desktop */
+  .vision-body { opacity: 1; }
+  .vision-card-inner { transform: none; }
+  @media (min-width: 768px) {
+    .vision-body { opacity: 0; transition: opacity 0.5s; }
+    .vision-card-inner { transform: translateY(2rem); transition: transform 0.5s; }
+    .vision-card:hover .vision-body { opacity: 1; }
+    .vision-card:hover .vision-card-inner { transform: none; }
+    .vision-card:hover .vision-icon { opacity: 0.6; }
+    .vision-card:hover .vision-underline { width: 100%; }
+  }
+  .vision-icon { opacity: 0.2; transition: opacity 0.5s; }
+  .vision-underline { width: 0; transition: width 0.7s; }
 </style>
 </head>
 <body class="bg-brand-cream text-brand-navy">
 
 <!-- NAV -->
 <nav class="fixed top-0 w-full z-50 bg-brand-dark/95 backdrop-blur-xl shadow-xl shadow-brand-dark/40">
-  <div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+  <div class="flex justify-between items-center w-full px-6 md:px-8 py-3 md:py-4 max-w-screen-2xl mx-auto">
     <a href="#" aria-label="Sean McCarthy for North Hempstead Supervisor" style="display:inline-flex;align-items:center;background:#F5F4F0;border-radius:4px;padding:4px 10px">
-      <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-10" />
+      <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-8 md:h-10" />
     </a>
+
+    <!-- Desktop links -->
     <div class="hidden md:flex gap-8 items-center">
-      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-all text-sm" href="#vision">Vision</a>
-      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-all text-sm" href="#platform">Platform</a>
-      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-all text-sm" href="#about">Meet Sean</a>
-      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-all text-sm" href="#donate">Donate</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm" href="#vision">Vision</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm" href="#platform">Platform</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm" href="#about">Meet Sean</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm" href="#donate">Donate</a>
     </div>
-    <div class="flex gap-3">
-      <a href="mailto:mccarthyforsupervisor@gmail.com?subject=I want to volunteer" class="px-5 py-2 bg-white/10 text-white font-headline uppercase tracking-widest font-bold hover:bg-white/20 transition-colors text-sm">Volunteer</a>
-      <a href="#donate" class="px-5 py-2 bg-brand-red text-white font-headline uppercase tracking-widest font-bold hover:opacity-85 transition-opacity text-sm">Donate</a>
+
+    <div class="flex items-center gap-2 md:gap-3">
+      <a href="mailto:mccarthyforsupervisor@gmail.com?subject=I want to volunteer" class="hidden sm:inline-flex px-4 md:px-5 py-2 bg-white/10 text-white font-headline uppercase tracking-widest font-bold hover:bg-white/20 transition-colors text-xs md:text-sm">Volunteer</a>
+      <a href="#donate" class="px-4 md:px-5 py-2 bg-brand-red text-white font-headline uppercase tracking-widest font-bold hover:opacity-85 transition-opacity text-xs md:text-sm">Donate</a>
+      <!-- Hamburger -->
+      <button id="nav-toggle" class="md:hidden flex flex-col gap-1.5 p-2 text-white" aria-label="Open menu">
+        <span class="block w-6 h-0.5 bg-white transition-transform" id="bar1"></span>
+        <span class="block w-6 h-0.5 bg-white transition-opacity" id="bar2"></span>
+        <span class="block w-6 h-0.5 bg-white transition-transform" id="bar3"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden bg-brand-dark border-t border-white/10">
+    <div class="flex flex-col px-6 py-4 gap-1">
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm py-3 border-b border-white/10" href="#vision">Vision</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm py-3 border-b border-white/10" href="#platform">Platform</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm py-3 border-b border-white/10" href="#about">Meet Sean</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm py-3 border-b border-white/10" href="#donate">Donate</a>
+      <a class="font-headline uppercase tracking-widest font-bold text-white/65 hover:text-white transition-colors text-sm py-3" href="mailto:mccarthyforsupervisor@gmail.com?subject=I want to volunteer">Volunteer</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO — full-bleed video, text hard-left -->
-<section class="relative overflow-hidden bg-brand-dark" style="min-height:75vh;max-height:82vh;padding-top:72px">
-
-  <!-- Full-bleed video -->
+<!-- HERO -->
+<section class="relative overflow-hidden bg-brand-dark" style="min-height:75vh;max-height:82vh;padding-top:56px">
   <video
     class="absolute inset-0 w-full h-full object-cover"
     style="object-position:65% center;filter:saturate(0.75) brightness(0.8)"
@@ -70,140 +122,136 @@
     <source src="Hero Video.mov" />
   </video>
 
-  <!-- Gradient: solid dark left panel fading to clear on the right -->
-  <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to right, #1A2547 0%, #1A2547 38%, rgba(26,37,71,0.7) 55%, rgba(26,37,71,0.1) 75%, transparent 90%);"></div>
-  <!-- Bottom fade into stats bar -->
+  <div class="absolute inset-0 hero-gradient pointer-events-none"></div>
   <div class="absolute bottom-0 inset-x-0 h-20 pointer-events-none" style="background:linear-gradient(to bottom,transparent,#4350A4);"></div>
 
-  <!-- Content: aligned to same container as rest of page -->
-  <div class="absolute inset-0 flex items-center pointer-events-none" style="padding-top:0">
-    <div class="w-full max-w-screen-2xl mx-auto px-8 pointer-events-none">
-    <div class="pointer-events-auto" style="width:48vw;min-width:300px;max-width:600px">
-      <span class="block text-brand-red font-headline uppercase tracking-[0.28em] font-bold text-xs mb-5">Democrat · North Hempstead</span>
-      <h1 class="font-headline font-black uppercase tracking-tighter leading-[1.0] mb-5 text-white" style="font-size:clamp(2rem,2.6vw,3.2rem)">
-        A Vision For <span class="text-brand-red">North Hempstead</span>
-      </h1>
-      <p class="text-white/60 font-light leading-relaxed mb-8" style="font-size:0.95rem;max-width:38ch">
-        33 years of law enforcement. Elected Police Commissioner in 2024. Sean McCarthy brings accountability, transparency, and results-driven leadership to Town Hall.
-      </p>
-      <div class="flex gap-3 flex-wrap mb-12">
-        <a href="#platform" class="bg-brand-red text-white px-6 py-3 font-headline font-bold uppercase tracking-widest text-xs hover:opacity-85 transition-opacity">Read the Platform</a>
-        <a href="#signup" class="text-white px-6 py-3 font-headline font-bold uppercase tracking-widest text-xs border border-white/25 hover:bg-white/10 transition-colors">Join the Movement</a>
+  <div class="absolute inset-0 flex items-center pointer-events-none">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 md:px-8 pointer-events-none">
+      <div class="pointer-events-auto w-full md:w-auto" style="max-width:600px">
+        <span class="block text-brand-red font-headline uppercase tracking-[0.28em] font-bold text-xs mb-4">Democrat · North Hempstead</span>
+        <h1 class="font-headline font-black uppercase tracking-tighter leading-[1.0] mb-5 text-white" style="font-size:clamp(2.2rem,5vw,3.2rem)">
+          A Vision For <span class="text-brand-red">North Hempstead</span>
+        </h1>
+        <p class="text-white/60 font-light leading-relaxed mb-6 md:mb-8" style="font-size:0.95rem;max-width:38ch">
+          33 years of law enforcement. Elected Police Commissioner in 2024. Sean McCarthy brings accountability, transparency, and results-driven leadership to Town Hall.
+        </p>
+        <div class="flex gap-3 flex-wrap mb-8 md:mb-12">
+          <a href="#platform" class="bg-brand-red text-white px-5 py-3 font-headline font-bold uppercase tracking-widest text-xs hover:opacity-85 transition-opacity">Read the Platform</a>
+          <a href="#signup" class="text-white px-5 py-3 font-headline font-bold uppercase tracking-widest text-xs border border-white/25 hover:bg-white/10 transition-colors">Join the Movement</a>
+        </div>
+        <div class="flex gap-6 md:gap-8 pt-5 border-t border-white/15">
+          <div>
+            <div class="font-headline font-black text-white leading-none text-3xl">33</div>
+            <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Yrs Serving</div>
+          </div>
+          <div>
+            <div class="font-headline font-black text-white leading-none text-3xl">2024</div>
+            <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Commissioner</div>
+          </div>
+          <div>
+            <div class="font-headline font-black text-white leading-none text-3xl">3</div>
+            <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Principles</div>
+          </div>
+        </div>
       </div>
-      <div class="flex gap-8 pt-6 border-t border-white/15">
-        <div>
-          <div class="font-headline font-black text-white leading-none" style="font-size:1.8rem">33</div>
-          <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Yrs Serving</div>
-        </div>
-        <div>
-          <div class="font-headline font-black text-white leading-none" style="font-size:1.8rem">2024</div>
-          <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Commissioner</div>
-        </div>
-        <div>
-          <div class="font-headline font-black text-white leading-none" style="font-size:1.8rem">3</div>
-          <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Principles</div>
-        </div>
-      </div>
-    </div>
     </div>
   </div>
-
 </section>
 
-<!-- SIGNUP (moved out of hero so video can breathe) -->
-<section class="bg-brand-navy py-16" id="signup">
-  <div class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-center">
+<!-- SIGNUP -->
+<section class="bg-brand-navy py-12 md:py-16" id="signup">
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-8 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
     <div>
-      <h2 class="font-headline font-black uppercase tracking-tighter text-white leading-tight mb-3" style="font-size:clamp(1.75rem,3vw,2.75rem)">Join the Movement</h2>
+      <h2 class="font-headline font-black uppercase tracking-tighter text-white leading-tight mb-3" style="font-size:clamp(1.75rem,4vw,2.75rem)">Join the Movement</h2>
       <p class="text-white/55 font-light leading-relaxed">Get campaign updates, volunteer opportunities, and event invites delivered to your inbox.</p>
     </div>
     <form class="grid grid-cols-2 gap-3" onsubmit="return false;">
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="First Name" type="text"/>
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="Last Name" type="text"/>
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-4 focus:outline-none focus:border-brand-blue col-span-2" placeholder="Email Address" type="email"/>
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="Zip Code" type="text"/>
-      <button class="col-span-1 bg-brand-red text-white py-4 font-headline font-bold uppercase tracking-widest hover:opacity-85 transition-opacity">Sign Me Up</button>
+      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="First Name" type="text"/>
+      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="Last Name" type="text"/>
+      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-2" placeholder="Email Address" type="email"/>
+      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="Zip Code" type="text"/>
+      <button class="col-span-1 bg-brand-red text-white py-3 md:py-4 font-headline font-bold uppercase tracking-widest hover:opacity-85 transition-opacity text-sm">Sign Me Up</button>
     </form>
   </div>
 </section>
 
 <!-- STATS BAR -->
-<section class="bg-brand-blue py-12">
-  <div class="max-w-screen-2xl mx-auto px-8 flex flex-wrap justify-between gap-8 text-white">
+<section class="bg-brand-blue py-10 md:py-12">
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-8 grid grid-cols-2 md:flex md:flex-wrap md:justify-between gap-6 md:gap-8 text-white">
     <div class="flex flex-col">
-      <span class="text-5xl font-black text-white font-headline">33</span>
-      <span class="text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Years in Law Enforcement</span>
+      <span class="text-4xl md:text-5xl font-black text-white font-headline">33</span>
+      <span class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Years in Law Enforcement</span>
     </div>
     <div class="flex flex-col">
-      <span class="text-5xl font-black text-white font-headline">2024</span>
-      <span class="text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Elected Commissioner</span>
+      <span class="text-4xl md:text-5xl font-black text-white font-headline">2024</span>
+      <span class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Elected Commissioner</span>
     </div>
     <div class="flex flex-col">
-      <span class="text-5xl font-black text-white font-headline">3</span>
-      <span class="text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Core Principles</span>
+      <span class="text-4xl md:text-5xl font-black text-white font-headline">3</span>
+      <span class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Core Principles</span>
     </div>
     <div class="flex flex-col">
-      <span class="text-5xl font-black text-white font-headline">4</span>
-      <span class="text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Platform Priorities</span>
+      <span class="text-4xl md:text-5xl font-black text-white font-headline">4</span>
+      <span class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-60 mt-1">Platform Priorities</span>
     </div>
   </div>
 </section>
 
 <!-- VISION SECTION -->
-<section class="py-24 bg-brand-cream" id="vision">
-  <div class="max-w-screen-2xl mx-auto px-8">
-    <div class="mb-16">
+<section class="py-16 md:py-24 bg-brand-cream" id="vision">
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+    <div class="mb-10 md:mb-16">
       <span class="text-brand-red font-bold uppercase tracking-[0.3em] text-sm">Our Blueprint</span>
-      <h2 class="text-5xl md:text-7xl font-black text-brand-navy uppercase tracking-tighter mt-4 leading-none font-headline">
+      <h2 class="font-black text-brand-navy uppercase tracking-tighter mt-4 leading-none font-headline" style="font-size:clamp(2.5rem,7vw,5rem)">
         His Vision for<br/>North Hempstead
       </h2>
     </div>
-    <div class="grid md:grid-cols-3 gap-0">
+    <div class="grid md:grid-cols-3 gap-0 gap-y-0">
 
       <!-- Card 1 -->
-      <div class="group relative bg-brand-navy p-12 min-h-[500px] flex flex-col justify-end overflow-hidden">
-        <div class="absolute top-12 left-12 opacity-20 group-hover:opacity-60 transition-opacity duration-500">
-          <span class="material-symbols-outlined text-8xl text-brand-red">account_balance</span>
+      <div class="vision-card group relative bg-brand-navy p-8 md:p-12 min-h-[320px] md:min-h-[500px] flex flex-col justify-end overflow-hidden">
+        <div class="absolute top-8 left-8 md:top-12 md:left-12 vision-icon">
+          <span class="material-symbols-outlined text-7xl md:text-8xl text-brand-red">account_balance</span>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div class="relative z-10 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-          <span class="text-brand-red font-bold text-xl mb-4 block">01</span>
-          <h4 class="text-3xl font-bold text-white uppercase mb-4 tracking-tight font-headline">Accountable Government</h4>
-          <p class="text-white/75 opacity-0 group-hover:opacity-100 transition-opacity duration-500 leading-relaxed">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="relative z-10 vision-card-inner">
+          <span class="text-brand-red font-bold text-xl mb-3 block">01</span>
+          <h4 class="text-2xl md:text-3xl font-bold text-white uppercase mb-3 tracking-tight font-headline">Accountable Government</h4>
+          <p class="text-white/75 vision-body leading-relaxed text-sm md:text-base">
             Every resident who contacts Town Hall will receive a real, qualified response. Transparent budgets, measurable outcomes, and a Master Plan with teeth.
           </p>
         </div>
-        <div class="absolute bottom-0 left-0 h-1 bg-brand-red w-0 group-hover:w-full transition-all duration-700"></div>
+        <div class="absolute bottom-0 left-0 h-1 bg-brand-red vision-underline"></div>
       </div>
 
       <!-- Card 2 -->
-      <div class="group relative bg-white p-12 min-h-[500px] flex flex-col justify-end overflow-hidden border-x border-brand-rule">
-        <div class="absolute top-12 left-12 opacity-10 group-hover:opacity-60 transition-opacity duration-500">
-          <span class="material-symbols-outlined text-8xl text-brand-blue">shield</span>
+      <div class="vision-card group relative bg-white p-8 md:p-12 min-h-[320px] md:min-h-[500px] flex flex-col justify-end overflow-hidden border-y md:border-y-0 md:border-x border-brand-rule">
+        <div class="absolute top-8 left-8 md:top-12 md:left-12 vision-icon">
+          <span class="material-symbols-outlined text-7xl md:text-8xl text-brand-blue">shield</span>
         </div>
-        <div class="relative z-10 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-          <span class="text-brand-blue font-bold text-xl mb-4 block">02</span>
-          <h4 class="text-3xl font-bold text-brand-navy uppercase mb-4 tracking-tight font-headline">Public Safety</h4>
-          <p class="text-brand-muted opacity-0 group-hover:opacity-100 transition-opacity duration-500 leading-relaxed">
+        <div class="relative z-10 vision-card-inner">
+          <span class="text-brand-blue font-bold text-xl mb-3 block">02</span>
+          <h4 class="text-2xl md:text-3xl font-bold text-brand-navy uppercase mb-3 tracking-tight font-headline">Public Safety</h4>
+          <p class="text-brand-muted vision-body leading-relaxed text-sm md:text-base">
             33 years protecting North Hempstead families. Sean will strengthen community policing, improve emergency response, and keep our neighborhoods safe.
           </p>
         </div>
-        <div class="absolute bottom-0 left-0 h-1 bg-brand-blue w-0 group-hover:w-full transition-all duration-700"></div>
+        <div class="absolute bottom-0 left-0 h-1 bg-brand-blue vision-underline"></div>
       </div>
 
       <!-- Card 3 -->
-      <div class="group relative bg-brand-red p-12 min-h-[500px] flex flex-col justify-end overflow-hidden">
-        <div class="absolute top-12 left-12 opacity-20 group-hover:opacity-60 transition-opacity duration-500">
-          <span class="material-symbols-outlined text-8xl text-white">groups</span>
+      <div class="vision-card group relative bg-brand-red p-8 md:p-12 min-h-[320px] md:min-h-[500px] flex flex-col justify-end overflow-hidden">
+        <div class="absolute top-8 left-8 md:top-12 md:left-12 vision-icon">
+          <span class="material-symbols-outlined text-7xl md:text-8xl text-white">groups</span>
         </div>
-        <div class="relative z-10 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-          <span class="text-white font-bold text-xl mb-4 block">03</span>
-          <h4 class="text-3xl font-bold text-white uppercase mb-4 tracking-tight font-headline">Community First</h4>
-          <p class="text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 leading-relaxed">
+        <div class="relative z-10 vision-card-inner">
+          <span class="text-white font-bold text-xl mb-3 block">03</span>
+          <h4 class="text-2xl md:text-3xl font-bold text-white uppercase mb-3 tracking-tight font-headline">Community First</h4>
+          <p class="text-white/80 vision-body leading-relaxed text-sm md:text-base">
             Expanding senior independence programs, reforming building codes to cut delays, and preserving the neighborhoods that make North Hempstead home.
           </p>
         </div>
-        <div class="absolute bottom-0 left-0 h-1 bg-white w-0 group-hover:w-full transition-all duration-700"></div>
+        <div class="absolute bottom-0 left-0 h-1 bg-white vision-underline"></div>
       </div>
 
     </div>
@@ -211,12 +259,12 @@
 </section>
 
 <!-- PLATFORM DETAIL -->
-<section class="py-24 bg-white" id="platform">
-  <div class="max-w-screen-2xl mx-auto px-8">
-    <div class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<section class="py-16 md:py-24 bg-white" id="platform">
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+    <div class="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
       <div>
         <span class="text-brand-red font-bold uppercase tracking-[0.3em] text-sm">Platform</span>
-        <h2 class="text-5xl md:text-6xl font-black text-brand-navy uppercase tracking-tighter mt-4 leading-none font-headline">
+        <h2 class="font-black text-brand-navy uppercase tracking-tighter mt-4 leading-none font-headline" style="font-size:clamp(2.5rem,6vw,4rem)">
           Sean's Priorities
         </h2>
       </div>
@@ -226,49 +274,49 @@
     </div>
 
     <div class="grid md:grid-cols-2 gap-px bg-brand-rule border border-brand-rule">
-      <div class="bg-white p-10 group hover:bg-brand-cream transition-colors">
+      <div class="bg-white p-8 md:p-10 hover:bg-brand-cream transition-colors">
         <span class="text-brand-red font-headline font-bold uppercase tracking-widest text-xs">Priority 01</span>
-        <h3 class="text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Government That Answers You</h3>
-        <p class="text-brand-muted leading-relaxed">A top-to-bottom review of North Hempstead's long-dormant Master Plan with measurable goals for revenue, land use, and infrastructure. Real responses — no runarounds.</p>
+        <h3 class="text-xl md:text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Government That Answers You</h3>
+        <p class="text-brand-muted leading-relaxed text-sm md:text-base">A top-to-bottom review of North Hempstead's long-dormant Master Plan with measurable goals for revenue, land use, and infrastructure. Real responses — no runarounds.</p>
       </div>
-      <div class="bg-white p-10 group hover:bg-brand-cream transition-colors">
+      <div class="bg-white p-8 md:p-10 hover:bg-brand-cream transition-colors">
         <span class="text-brand-red font-headline font-bold uppercase tracking-widest text-xs">Priority 02</span>
-        <h3 class="text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Building Code Reform</h3>
-        <p class="text-brand-muted leading-relaxed">A comprehensive audit of commercial and residential regulations to streamline approvals, cut months of delays, and save residents and businesses thousands of dollars.</p>
+        <h3 class="text-xl md:text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Building Code Reform</h3>
+        <p class="text-brand-muted leading-relaxed text-sm md:text-base">A comprehensive audit of commercial and residential regulations to streamline approvals, cut months of delays, and save residents and businesses thousands of dollars.</p>
       </div>
-      <div class="bg-white p-10 group hover:bg-brand-cream transition-colors">
+      <div class="bg-white p-8 md:p-10 hover:bg-brand-cream transition-colors">
         <span class="text-brand-red font-headline font-bold uppercase tracking-widest text-xs">Priority 03</span>
-        <h3 class="text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Senior Independence</h3>
-        <p class="text-brand-muted leading-relaxed">Expanding Project Independence with more recreational programs, transportation support, and employer partnerships so every senior can age in place with dignity.</p>
+        <h3 class="text-xl md:text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Senior Independence</h3>
+        <p class="text-brand-muted leading-relaxed text-sm md:text-base">Expanding Project Independence with more recreational programs, transportation support, and employer partnerships so every senior can age in place with dignity.</p>
       </div>
-      <div class="bg-white p-10 group hover:bg-brand-cream transition-colors">
+      <div class="bg-white p-8 md:p-10 hover:bg-brand-cream transition-colors">
         <span class="text-brand-red font-headline font-bold uppercase tracking-widest text-xs">Priority 04</span>
-        <h3 class="text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Fiscal Transparency</h3>
-        <p class="text-brand-muted leading-relaxed">Restoring full transparency to the town budget process. Every dollar tracked, every expenditure justified, every investment tied directly to community outcomes.</p>
+        <h3 class="text-xl md:text-2xl font-black text-brand-navy uppercase mt-3 mb-4 font-headline tracking-tight">Fiscal Transparency</h3>
+        <p class="text-brand-muted leading-relaxed text-sm md:text-base">Restoring full transparency to the town budget process. Every dollar tracked, every expenditure justified, every investment tied directly to community outcomes.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- DONATION SECTION -->
-<section class="py-24 bg-brand-cream overflow-hidden" id="donate">
-  <div class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
+<section class="py-16 md:py-24 bg-brand-cream overflow-hidden" id="donate">
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-8 grid md:grid-cols-2 gap-12 md:gap-16 items-center">
     <div>
       <span class="text-brand-red font-bold uppercase tracking-[0.3em] text-sm">Support the Campaign</span>
-      <h2 class="text-5xl font-black text-brand-navy uppercase mb-6 mt-4 tracking-tighter font-headline leading-none">Support the Fight</h2>
-      <p class="text-xl text-brand-muted mb-10 leading-relaxed">
+      <h2 class="font-black text-brand-navy uppercase mb-6 mt-4 tracking-tighter font-headline leading-none" style="font-size:clamp(2rem,5vw,3.5rem)">Support the Fight</h2>
+      <p class="text-lg md:text-xl text-brand-muted mb-8 md:mb-10 leading-relaxed">
         This campaign is powered by people like you. Your contribution helps us spread our message of accountable, community-first leadership across every neighborhood in North Hempstead.
       </p>
-      <div class="flex flex-wrap gap-4 mb-8">
-        <a href="https://mccarthyforsupervisor.org" class="px-8 py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$25</a>
-        <a href="https://mccarthyforsupervisor.org" class="px-8 py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$50</a>
-        <a href="https://mccarthyforsupervisor.org" class="px-8 py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$100</a>
-        <a href="https://mccarthyforsupervisor.org" class="px-8 py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$250</a>
-        <a href="https://mccarthyforsupervisor.org" class="px-8 py-4 bg-brand-red text-white font-headline font-bold hover:opacity-90 transition-all uppercase tracking-wider text-sm">Other Amount</a>
+      <div class="flex flex-wrap gap-3 md:gap-4 mb-8">
+        <a href="https://mccarthyforsupervisor.org" class="px-6 md:px-8 py-3 md:py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$25</a>
+        <a href="https://mccarthyforsupervisor.org" class="px-6 md:px-8 py-3 md:py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$50</a>
+        <a href="https://mccarthyforsupervisor.org" class="px-6 md:px-8 py-3 md:py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$100</a>
+        <a href="https://mccarthyforsupervisor.org" class="px-6 md:px-8 py-3 md:py-4 border-2 border-brand-navy text-brand-navy font-headline font-bold hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider text-sm">$250</a>
+        <a href="https://mccarthyforsupervisor.org" class="px-6 md:px-8 py-3 md:py-4 bg-brand-red text-white font-headline font-bold hover:opacity-90 transition-all uppercase tracking-wider text-sm">Other Amount</a>
       </div>
     </div>
 
-    <div class="relative">
+    <div class="relative mt-8 md:mt-0">
       <div class="aspect-square bg-brand-navy/15 overflow-hidden">
         <img
           class="w-full h-full object-cover object-top grayscale contrast-125"
@@ -276,8 +324,9 @@
           alt="Sean McCarthy"
         />
       </div>
-      <div class="absolute -bottom-8 -left-8 bg-brand-navy text-white p-8 max-w-xs shadow-2xl">
-        <p class="font-bold italic text-lg leading-snug">"North Hempstead deserves leadership that listens, acts, and delivers — not one that disappears between elections."</p>
+      <!-- Quote card: responsive positioning -->
+      <div class="md:absolute md:-bottom-8 md:-left-8 mt-4 md:mt-0 bg-brand-navy text-white p-6 md:p-8 md:max-w-xs shadow-2xl">
+        <p class="font-bold italic text-base md:text-lg leading-snug">"North Hempstead deserves leadership that listens, acts, and delivers — not one that disappears between elections."</p>
         <span class="block mt-4 text-brand-red font-bold uppercase tracking-widest text-sm">— Sean McCarthy</span>
       </div>
     </div>
@@ -285,59 +334,59 @@
 </section>
 
 <!-- ABOUT / MEET SEAN -->
-<section class="py-24 bg-white" id="about">
-  <div class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
+<section class="py-16 md:py-24 bg-white" id="about">
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-8 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
     <div>
       <span class="text-brand-red font-bold uppercase tracking-[0.3em] text-sm">Meet the Candidate</span>
-      <h2 class="text-5xl font-black text-brand-navy uppercase mt-4 mb-8 tracking-tighter font-headline leading-none">A Life of<br/>Service</h2>
-      <div class="space-y-5 text-brand-muted leading-relaxed">
+      <h2 class="font-black text-brand-navy uppercase mt-4 mb-6 md:mb-8 tracking-tighter font-headline leading-none" style="font-size:clamp(2rem,5vw,3.5rem)">A Life of<br/>Service</h2>
+      <div class="space-y-4 md:space-y-5 text-brand-muted leading-relaxed text-sm md:text-base">
         <p>Sean McCarthy is a <strong class="text-brand-navy font-semibold">33-year veteran of local law enforcement</strong> and a lifelong North Hempstead resident. He rose through the ranks of the Nassau County Police Department to serve as Chief of Support Services.</p>
         <p>In 2024, Sean was <strong class="text-brand-navy font-semibold">elected Police Commissioner</strong> of the Port Washington Police District — proof that his neighbors trust him to lead. Now he's bringing that same accountable, transparent leadership to Town Hall.</p>
         <p>Sean and his wife Lisa have three children and have called Port Washington home their entire lives. He knows these streets, these schools, and these families personally.</p>
       </div>
 
-      <div class="mt-10 space-y-0 border-t border-brand-rule">
-        <div class="flex justify-between items-center py-4 border-b border-brand-rule">
-          <span class="font-medium text-brand-navy">Chief of Support Services, Nassau County PD</span>
-          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1">NCPD</span>
+      <div class="mt-8 md:mt-10 border-t border-brand-rule">
+        <div class="flex justify-between items-center py-3 md:py-4 border-b border-brand-rule gap-4">
+          <span class="font-medium text-brand-navy text-sm md:text-base">Chief of Support Services, Nassau County PD</span>
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1 shrink-0">NCPD</span>
         </div>
-        <div class="flex justify-between items-center py-4 border-b border-brand-rule">
-          <span class="font-medium text-brand-navy">Elected Police Commissioner, Port Washington</span>
-          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1">2024</span>
+        <div class="flex justify-between items-center py-3 md:py-4 border-b border-brand-rule gap-4">
+          <span class="font-medium text-brand-navy text-sm md:text-base">Elected Police Commissioner, Port Washington</span>
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1 shrink-0">2024</span>
         </div>
-        <div class="flex justify-between items-center py-4 border-b border-brand-rule">
-          <span class="font-medium text-brand-navy">Board, North Shore Child &amp; Family Guidance</span>
-          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1">Active</span>
+        <div class="flex justify-between items-center py-3 md:py-4 border-b border-brand-rule gap-4">
+          <span class="font-medium text-brand-navy text-sm md:text-base">Board, North Shore Child &amp; Family Guidance</span>
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1 shrink-0">Active</span>
         </div>
-        <div class="flex justify-between items-center py-4 border-b border-brand-rule">
-          <span class="font-medium text-brand-navy">President, Viking Sports Foundation</span>
-          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1">Active</span>
+        <div class="flex justify-between items-center py-3 md:py-4 border-b border-brand-rule gap-4">
+          <span class="font-medium text-brand-navy text-sm md:text-base">President, Viking Sports Foundation</span>
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-blue bg-brand-blue/10 px-3 py-1 shrink-0">Active</span>
         </div>
       </div>
     </div>
 
-    <div class="relative overflow-hidden">
+    <div class="relative overflow-visible">
       <img
         class="w-full object-cover rounded-sm"
         src="https://mccarthyforsupervisor.org/wp-content/uploads/2026/04/Sean-McCarthy-Headshot.jpeg"
         alt="Sean McCarthy"
       />
-      <div class="absolute top-8 right-8 bg-brand-blue text-white p-6 shadow-xl">
-        <div class="text-4xl font-black font-headline">33</div>
+      <div class="absolute top-4 right-4 md:top-8 md:right-8 bg-brand-blue text-white p-4 md:p-6 shadow-xl">
+        <div class="text-3xl md:text-4xl font-black font-headline">33</div>
         <div class="text-xs font-bold uppercase tracking-widest opacity-70 mt-1">Years of Service</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- COMMUNITY / ON THE GROUND -->
-<section class="py-24 bg-brand-cream">
-  <div class="max-w-screen-2xl mx-auto px-8">
-    <div class="flex justify-between items-end mb-16">
-      <h2 class="text-5xl font-black text-brand-navy uppercase tracking-tighter font-headline">On the Ground</h2>
-      <a class="text-brand-red font-bold uppercase tracking-widest text-sm border-b-2 border-brand-red pb-1 hover:opacity-75 transition-opacity" href="https://instagram.com/mcarthyforsupervisor" target="_blank" rel="noopener">Follow @mcarthyforsupervisor</a>
+<!-- COMMUNITY -->
+<section class="py-16 md:py-24 bg-brand-cream">
+  <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-10 md:mb-16 gap-4">
+      <h2 class="font-black text-brand-navy uppercase tracking-tighter font-headline" style="font-size:clamp(2rem,5vw,3.5rem)">On the Ground</h2>
+      <a class="text-brand-red font-bold uppercase tracking-widest text-sm border-b-2 border-brand-red pb-1 hover:opacity-75 transition-opacity self-start sm:self-auto" href="https://instagram.com/mcarthyforsupervisor" target="_blank" rel="noopener">Follow @mcarthyforsupervisor</a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
       <div class="aspect-square overflow-hidden group relative bg-brand-navy/20">
         <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://placehold.co/600x600/2B3A6E/ffffff?text=Community" alt="Community outreach"/>
         <div class="absolute inset-0 bg-brand-navy/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -368,16 +417,16 @@
 
 <!-- FOOTER -->
 <footer class="bg-brand-dark w-full">
-  <div class="flex flex-col md:flex-row justify-between items-center px-12 py-16 gap-8 w-full max-w-screen-2xl mx-auto">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-12 py-12 md:py-16 gap-8 w-full max-w-screen-2xl mx-auto">
     <div class="flex flex-col gap-4">
       <span style="display:inline-flex;align-items:center;background:#F5F4F0;border-radius:4px;padding:6px 12px">
-        <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-12" />
+        <img src="Brand_assets/logo.png" alt="Sean McCarthy" class="h-10 md:h-12" />
       </span>
       <p class="text-sm text-white/38 max-w-xs leading-relaxed">
         Paid for by McCarthy for Supervisor. Not authorized by any candidate or candidate's committee. © 2026 McCarthy for Supervisor.
       </p>
     </div>
-    <div class="flex gap-8">
+    <div class="flex flex-wrap gap-6 md:gap-8">
       <a class="text-sm text-white/45 hover:text-brand-red transition-colors" href="#vision">Vision</a>
       <a class="text-sm text-white/45 hover:text-brand-red transition-colors" href="#platform">Platform</a>
       <a class="text-sm text-white/45 hover:text-brand-red transition-colors" href="#about">Meet Sean</a>
@@ -397,14 +446,38 @@
 </footer>
 
 <script>
-  // Nav scroll shadow (already has shadow, just skip)
-  // Mobile: simple scroll to section on link click
+  // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const id = a.getAttribute('href').slice(1);
       const el = document.getElementById(id);
-      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth' });
+        // Close mobile menu if open
+        mobileMenu.classList.remove('open');
+        isOpen = false;
+        bar1.style.transform = '';
+        bar2.style.opacity = '';
+        bar3.style.transform = '';
+      }
     });
+  });
+
+  // Mobile nav toggle
+  const toggle = document.getElementById('nav-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+  let isOpen = false;
+
+  toggle.addEventListener('click', () => {
+    isOpen = !isOpen;
+    mobileMenu.classList.toggle('open', isOpen);
+    bar1.style.transform = isOpen ? 'translateY(8px) rotate(45deg)' : '';
+    bar2.style.opacity = isOpen ? '0' : '';
+    bar3.style.transform = isOpen ? 'translateY(-8px) rotate(-45deg)' : '';
   });
 </script>
 
