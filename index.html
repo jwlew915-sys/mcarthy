@@ -46,14 +46,9 @@
     max-height: 400px;
   }
 
-  /* Hero gradient: left panel on all sizes, wider solid zone on mobile */
-  .hero-gradient {
-    background: linear-gradient(to right, #1A2547 0%, #1A2547 55%, rgba(26,37,71,0.6) 72%, rgba(26,37,71,0.1) 88%, transparent 100%);
-  }
-  @media (min-width: 768px) {
-    .hero-gradient {
-      background: linear-gradient(to right, #1A2547 0%, #1A2547 38%, rgba(26,37,71,0.7) 55%, rgba(26,37,71,0.1) 75%, transparent 90%);
-    }
+  /* Hero: even dark overlay across full section */
+  .hero-overlay {
+    background: rgba(15,24,55,0.68);
   }
 
   /* Vision cards: always show text on mobile, hover-only on desktop */
@@ -113,33 +108,36 @@
 </nav>
 
 <!-- HERO -->
-<section class="relative overflow-hidden bg-brand-dark" style="min-height:75vh;max-height:82vh;padding-top:56px">
+<section class="relative overflow-hidden bg-brand-dark" style="min-height:100svh;padding-top:56px" id="signup">
   <video
     class="absolute inset-0 w-full h-full object-cover"
-    style="object-position:65% center;filter:saturate(0.75) brightness(0.8)"
+    style="object-position:60% center;filter:saturate(0.75) brightness(0.75)"
     autoplay muted loop playsinline preload="auto" aria-hidden="true"
   >
     <source src="Hero Video.mov" />
   </video>
 
-  <div class="absolute inset-0 hero-gradient pointer-events-none"></div>
-  <div class="absolute bottom-0 inset-x-0 h-20 pointer-events-none" style="background:linear-gradient(to bottom,transparent,#4350A4);"></div>
+  <div class="absolute inset-0 hero-overlay pointer-events-none"></div>
+  <div class="absolute bottom-0 inset-x-0 h-24 pointer-events-none" style="background:linear-gradient(to bottom,transparent,rgba(26,37,71,0.5));"></div>
 
-  <div class="absolute inset-0 flex items-center pointer-events-none">
-    <div class="w-full max-w-screen-2xl mx-auto px-6 md:px-8 pointer-events-none">
-      <div class="pointer-events-auto" style="width:58vw;min-width:220px;max-width:600px">
-        <span class="block text-brand-red font-headline uppercase tracking-[0.28em] font-bold text-xs mb-4">Democrat · North Hempstead</span>
-        <h1 class="font-headline font-black uppercase tracking-tighter leading-[1.0] mb-5 text-white" style="font-size:clamp(2.2rem,5vw,3.2rem)">
+  <!-- Two-column layout: text left, card right -->
+  <div class="relative z-10 flex items-center min-h-[calc(100svh-56px)]">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 md:px-8 py-12 grid md:grid-cols-[1fr_400px] lg:grid-cols-[1fr_440px] gap-8 lg:gap-16 items-center">
+
+      <!-- Left: headline + CTAs -->
+      <div>
+        <span class="block text-brand-red font-headline uppercase tracking-[0.28em] font-bold text-xs mb-5">Democrat · North Hempstead</span>
+        <h1 class="font-headline font-black uppercase tracking-tighter leading-[0.95] mb-6 text-white" style="font-size:clamp(3rem,7vw,6rem)">
           A Vision For <span class="text-brand-red">North Hempstead</span>
         </h1>
-        <p class="text-white/60 font-light leading-relaxed mb-6 md:mb-8" style="font-size:0.95rem;max-width:38ch">
-          33 years of law enforcement. Elected Police Commissioner in 2024. Sean McCarthy brings accountability, transparency, and results-driven leadership to Town Hall.
+        <p class="text-white/70 leading-relaxed mb-8" style="font-size:1rem;max-width:44ch">
+          Building a future rooted in fiscal responsibility, public safety, and community-first governance. Join Sean McCarthy in leading our town forward.
         </p>
-        <div class="flex gap-3 flex-wrap mb-8 md:mb-12">
-          <a href="#platform" class="bg-brand-red text-white px-5 py-3 font-headline font-bold uppercase tracking-widest text-xs hover:opacity-85 transition-opacity">Read the Platform</a>
-          <a href="#signup" class="text-white px-5 py-3 font-headline font-bold uppercase tracking-widest text-xs border border-white/25 hover:bg-white/10 transition-colors">Join the Movement</a>
+        <div class="flex gap-3 flex-wrap mb-10">
+          <a href="#vision" class="bg-brand-red text-white px-6 py-3 font-headline font-bold uppercase tracking-widest text-xs hover:opacity-85 transition-opacity">Watch the Message</a>
+          <a href="#platform" class="bg-white/15 text-white px-6 py-3 font-headline font-bold uppercase tracking-widest text-xs hover:bg-white/25 transition-colors">Read the Platform</a>
         </div>
-        <div class="flex gap-6 md:gap-8 pt-5 border-t border-white/15">
+        <div class="flex gap-8 pt-6 border-t border-white/15">
           <div>
             <div class="font-headline font-black text-white leading-none text-3xl">33</div>
             <div class="text-white/40 text-xs uppercase tracking-widest font-bold mt-1">Yrs Serving</div>
@@ -154,24 +152,25 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- SIGNUP -->
-<section class="bg-brand-navy py-12 md:py-16" id="signup">
-  <div class="max-w-screen-2xl mx-auto px-6 md:px-8 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-    <div>
-      <h2 class="font-headline font-black uppercase tracking-tighter text-white leading-tight mb-3" style="font-size:clamp(1.75rem,4vw,2.75rem)">Join the Movement</h2>
-      <p class="text-white/55 font-light leading-relaxed">Get campaign updates, volunteer opportunities, and event invites delivered to your inbox.</p>
+      <!-- Right: floating signup card -->
+      <div class="relative bg-white p-8 shadow-2xl overflow-hidden">
+        <!-- Decorative corner accent -->
+        <div class="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+          <div class="absolute top-0 right-0 w-0 h-0" style="border-style:solid;border-width:0 64px 64px 0;border-color:transparent #CC2529 transparent transparent;opacity:0.25"></div>
+        </div>
+        <h3 class="font-headline font-black uppercase tracking-tight text-brand-navy mb-2" style="font-size:1.5rem">Join the Movement</h3>
+        <p class="text-brand-red text-sm leading-snug mb-6">Get updates on Sean's vision for our community directly to your inbox.</p>
+        <form class="grid grid-cols-2 gap-3" onsubmit="return false;">
+          <input class="col-span-1 bg-brand-input border-0 text-brand-navy placeholder-brand-muted/60 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" placeholder="First Name" type="text"/>
+          <input class="col-span-1 bg-brand-input border-0 text-brand-navy placeholder-brand-muted/60 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" placeholder="Last Name" type="text"/>
+          <input class="col-span-2 bg-brand-input border-0 text-brand-navy placeholder-brand-muted/60 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" placeholder="Email Address" type="email"/>
+          <input class="col-span-2 bg-brand-input border-0 text-brand-navy placeholder-brand-muted/60 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" placeholder="Zip Code" type="text"/>
+          <button class="col-span-2 bg-brand-dark text-white py-4 font-headline font-bold uppercase tracking-widest text-sm hover:bg-brand-navy transition-colors">Sign Me Up</button>
+        </form>
+      </div>
+
     </div>
-    <form class="grid grid-cols-2 gap-3" onsubmit="return false;">
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="First Name" type="text"/>
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="Last Name" type="text"/>
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-2" placeholder="Email Address" type="email"/>
-      <input class="bg-white/10 border border-white/15 text-white placeholder-white/35 p-3 md:p-4 focus:outline-none focus:border-brand-blue col-span-1" placeholder="Zip Code" type="text"/>
-      <button class="col-span-1 bg-brand-red text-white py-3 md:py-4 font-headline font-bold uppercase tracking-widest hover:opacity-85 transition-opacity text-sm">Sign Me Up</button>
-    </form>
   </div>
 </section>
 
